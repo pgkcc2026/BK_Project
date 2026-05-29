@@ -1,0 +1,156 @@
+BK_Project - 銀行Webシステム
+1. プロジェクト概要
+
+本プロジェクトは、Java Servlet / JSPを使用して作成した学習用の銀行Webアプリケーションです。
+
+ユーザーはWebブラウザから会員登録、ログイン、口座開設、入金、出金、送金、残高確認、取引履歴確認などの基本的な銀行機能を利用できます。
+
+画面表示はJSP、リクエスト処理はServlet、業務処理はService、データベース操作はDAOに分けて実装し、MVCに近い構成を意識して作成しました。
+
+2. 使用技術
+区分	内容
+言語	Java
+画面	JSP, HTML, CSS
+サーバー	Apache Tomcat
+DB	MySQL
+DB接続	JDBC
+開発環境	Eclipse Dynamic Web Project
+DB管理ツール	MySQL Workbench
+3. 主な機能
+会員登録
+
+ユーザーの名前、メールアドレス、パスワードを登録します。
+パスワード確認チェックを行い、入力ミスを防止します。
+
+ログイン / ログアウト
+
+メールアドレスとパスワードで認証を行います。
+ログイン後はSessionにログインユーザー情報を保持します。
+
+口座開設
+
+ログインユーザーに対して銀行口座を作成します。
+初期残高は0円として登録します。
+
+入金
+
+入力された金額を現在の残高に加算します。
+入金後、取引履歴テーブルに入金履歴を保存します。
+
+出金
+
+入力金額、口座存在、残高不足をチェックします。
+問題がなければ残高から金額を減算し、出金履歴を保存します。
+
+送金
+
+送金元口座と送金先口座を確認し、送金処理を行います。
+送金元の残高を減算し、送金先の残高を加算します。
+
+残高確認
+
+ログインユーザーの口座情報と現在残高を表示します。
+
+取引履歴
+
+入金・出金などの取引履歴を日時順に表示します。
+
+4. システム構成
+
+本プロジェクトでは、以下のように役割を分けて実装しています。
+
+Browser
+  ↓
+JSP
+  ↓
+Servlet
+  ↓
+Service
+  ↓
+DAO
+  ↓
+MySQL
+各層の役割
+層	役割
+JSP	画面表示、入力フォーム、メッセージ表示
+Servlet	リクエスト受付、入力値取得、画面遷移制御
+Service	業務ロジック、入力チェック、残高計算
+DAO	SQL実行、DB登録・更新・取得
+MySQL	ユーザー、口座、取引情報の保存
+5. データベース設計
+
+使用DB名：
+
+bank_db
+users テーブル
+
+ユーザー情報を管理します。
+
+カラム名	内容
+user_id	ユーザーID
+name	名前
+email	メールアドレス
+password	パスワード
+accounts テーブル
+
+口座情報を管理します。
+
+カラム名	内容
+account_id	口座ID
+user_id	ユーザーID
+account_number	口座番号
+balance	残高
+transactions テーブル
+
+入金・出金などの取引履歴を管理します。
+
+カラム名	内容
+transaction_id	取引ID
+account_id	口座ID
+transaction_type	取引種別
+amount	金額
+balance_after	取引後残高
+transaction_date	取引日時
+money_transfer テーブル
+
+送金履歴を管理します。
+
+カラム名	内容
+transfer_id	送金ID
+from_account_id	送金元口座ID
+to_account_id	送金先口座ID
+amount	送金金額
+transfer_date	送金日時
+6. 画面一覧
+画面名	内容
+Login.jsp	ログイン画面
+register.jsp	会員登録画面
+mypage.jsp	マイページ
+accountCreate.jsp	口座開設画面
+deposit.jsp	入金画面
+withdraw.jsp	出金画面
+money_transfer.jsp	送金画面
+balance.jsp	残高確認画面
+history.jsp	取引履歴画面
+7. 処理フロー
+入金処理
+1. 金額を入力
+2. 1円以上か確認
+3. 口座情報を取得
+4. 現在残高に金額を加算
+5. accountsテーブルを更新
+6. transactionsテーブルに入金履歴を保存
+出金処理
+1. 金額を入力
+2. 1円以上か確認
+3. 口座情報を取得
+4. 残高不足を確認
+5. 現在残高から金額を減算
+6. transactionsテーブルに出金履歴を保存
+送金処理
+1. 送金先口座IDと金額を入力
+2. 送金元・送金先口座を取得
+3. 自分自身への送金を防止
+4. 残高不足を確認
+5. 送金元残高を減算、送金先残高を加算
+6. money_transferテーブルに送金履歴を保存
