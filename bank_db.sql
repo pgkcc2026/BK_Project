@@ -2,7 +2,7 @@
 CREATE DATABASE bank_db;
 -- 使用するデータベースを選択
 USE bank_db;
-
+　
 -- ユーザー情報を管理するテーブルを作成する
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY, -- ユーザーID（自動採番・主キー）
