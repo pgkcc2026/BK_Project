@@ -1,0 +1,9 @@
+.git
+build
+*.war
+.metadata
+.settings
+.classpath
+.project
+.DS_Store
+Thumbs.db
