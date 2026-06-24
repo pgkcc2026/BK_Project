@@ -8,6 +8,8 @@
 
 画面表示はJSP、リクエスト処理はServlet、業務処理はService、データベース操作はDAOに分けて実装し、MVCに近い構成を意識して作成しました。
 
+【URL】
+https://bk-project-uq82.onrender.com/Bank_p/Login.jsp
 ---
 
 ## 🛠 使用技術
